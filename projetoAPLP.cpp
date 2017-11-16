@@ -69,8 +69,8 @@ void exibirTrave()
 
 void exibirPlacar(int p1, int p2)
 {
-	cout<<"Jogador 1: "<<p1<<" gol(s)."<<endl;
-	cout<<"Jogador 2: "<<p2<<" gol(s).\n"<<endl;
+	cout<<"Placar => Jogador 1: "<<p1<<" gol(s)."<<endl;
+	cout<<"          Jogador 2: "<<p2<<" gol(s).\n"<<endl;
 }
 
 void exibirOpcoes()
@@ -97,55 +97,50 @@ void exibirMenu()
 	cout<<endl;
 }
 
-bool isGol(int localDoChute)
+int simularChute(int localDoChute)
 {	
 	int i, j, min_i, max_i, min_j, max_j;
 	
 	if (localDoChute == ESQUERDA_CIMA) 
 	{
-		min_i = 0; max_i = 2; min_j = 0; max_j = 3;
+		min_i = 0; max_i = 3; min_j = 0; max_j = 3;
 	}
 	else if (localDoChute == ESQUERDA_BAIXO) 
 	{
-		min_i = 3; max_i = 5; min_j = 0; max_j = 3;
+		min_i = 4; max_i = 5; min_j = 0; max_j = 3;
 	}
 	else if (localDoChute == MEIO_CIMA) 
 	{
-		min_i = 0; max_i = 2; min_j = 4; max_j = 6;
+		min_i = 0; max_i = 3; min_j = 4; max_j = 6;
 	}
 	else if (localDoChute == MEIO_BAIXO) 
 	{
-		min_i = 3; max_i = 5; min_j = 4; max_j = 6;
+		min_i = 4; max_i = 5; min_j = 4; max_j = 6;
 	}
 	else if (localDoChute == DIREITA_CIMA) 
 	{
-		min_i = 0; max_i = 2; min_j = 7; max_j = 10;
+		min_i = 0; max_i = 3; min_j = 7; max_j = 10;
 	}
 	else if (localDoChute == DIREITA_BAIXO)
 	{
-		min_i = 3; max_i = 5; min_j = 7; max_j = 10;
+		min_i = 4; max_i = 5; min_j = 7; max_j = 10;
 	}
 	
 	srand(time(NULL));
 	i = min_i + (rand() % static_cast<int>(max_i - min_i + 1));
 	j = min_j + (rand() % static_cast<int>(max_j - min_j + 1));
 	
-	if(trave[i][j]==REDE)
-	{
-		trave[i][j] = BOLA;
-		return true;
-	}
-	else
-	{
-		trave[i][j] = BOLA;
-		return false;
-	}
+	int local = trave[i][j];
+	trave[i][j] = BOLA;
+	
+	return local;
 }
 
 void realizarJogada(int &p, int jogador)
 {
-	cout<<"JOGADOR "<<jogador<<endl;
-	cout<<"=========="<<endl;
+	cout<<"@@@@@@@@@@@"<<endl;
+	cout<<"@JOGADOR "<<jogador<<"@"<<endl;
+	cout<<"@@@@@@@@@@@"<<endl;
 	montarTrave(0);
 	exibirTrave();
 	exibirOpcoes();
@@ -161,30 +156,38 @@ void realizarJogada(int &p, int jogador)
 		cin >> localDoChute; cout<<endl;
 	}
 	
+	cout<<"Ele escolhe um canto, se prepara pra chutar e....\n"<<endl;
+	
 	srand(time(NULL));
 	int shift = MIN_SHIFT + (rand() % static_cast<int>(MAX_SHIFT - MIN_SHIFT + 1));
 	montarTrave(shift);
 	
-	if(isGol(localDoChute))
+	int local = simularChute(localDoChute);
+	
+	exibirTrave();
+	
+	if(local==REDE)
 	{
-		exibirTrave();
 		cout<<"GOLL!!\n"<<endl;
 		p++;
 	}
+	else if(local==TRAVE_CIMA or local==TRAVE_LADO)
+	{
+		cout<<"NA TRAVEE!!\n"<<endl;
+	}
 	else
 	{
-		exibirTrave();
-		cout<<"ERROU!!\n"<<endl;
-	}	
+		cout<<"O GOLEIRO DEFENDE!!\n"<<endl;
+	}
 }
 
 void realizarJogadaPC(int &p, int jogador)
 {
-	cout<<"JOGADOR "<<jogador<<endl;
-	cout<<"=========="<<endl;
+	cout<<"@@@@@@@@@@@@@@@@"<<endl;
+	cout<<"@JOGADOR "<<jogador<<"(PC)@"<<endl;
+	cout<<"@@@@@@@@@@@@@@@@"<<endl;
 	montarTrave(0);
 	exibirTrave();
-	exibirOpcoes();
 	
 	int localDoChute;
 	
@@ -194,16 +197,24 @@ void realizarJogadaPC(int &p, int jogador)
 	int shift = MIN_SHIFT + (rand() % static_cast<int>(MAX_SHIFT - MIN_SHIFT + 1));
 	montarTrave(shift);
 	
-	if(isGol(localDoChute))
+	cout<<"Ele escolhe um canto, se prepara pra chutar e....\n"<<endl;
+	
+	int local = simularChute(localDoChute);
+	
+	exibirTrave();
+	
+	if(local==REDE)
 	{
-		exibirTrave();
 		cout<<"GOLL!!\n"<<endl;
 		p++;
 	}
+	else if(local==TRAVE_CIMA or local==TRAVE_LADO)
+	{
+		cout<<"NA TRAVEE!!\n"<<endl;
+	}
 	else
 	{
-		exibirTrave();
-		cout<<"ERROU!!\n"<<endl;
+		cout<<"O GOLEIRO DEFENDE!!\n"<<endl;
 	}	
 }
 
