@@ -85,8 +85,8 @@ void exibirOpcoes()
 
 void exibirMenu()
 {
-	cout<<"################"<<endl;
-	cout<<"# MENU INICIAL #"<<endl;
+	cout<<"####PENALTIS####"<<endl;
+	cout<<"# Menu inicial #"<<endl;
 	cout<<"################\n"<<endl;
 	
 	cout<<"0 - SINGLEPLAYER"<<endl;
