@@ -228,7 +228,7 @@ int main()
 	{
 		int p1 =0 , pc = 0, rodadas = 0;
 	
-		while((rodadas<5 and abs(p1-pc<3)) or (rodadas>=5 and p1==pc))
+		while((rodadas<5 and ((5-rodadas)>=abs(p1-pc))) or (rodadas>=5 and p1==pc))
 		{
 			cout<<"############"<<endl;
 			cout<<"#RODADA "<<rodadas+1<<"!!#"<<endl;
@@ -255,7 +255,7 @@ int main()
 	{
 		int p1 =0 , p2 = 0, rodadas = 0;
 	
-		while((rodadas<5 and abs(p1-p2<3)) or (rodadas>=5 and p1==p2))
+		while((rodadas<5  and (5-rodadas)>=abs(p1-p2)) or (rodadas>=5 and p1==p2))
 		{
 			cout<<"############"<<endl;
 			cout<<"#RODADA "<<rodadas+1<<"!!#"<<endl;
