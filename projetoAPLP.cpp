@@ -2,7 +2,7 @@
 
 using namespace std;
 
-const int ALTURA = 6, LARGURA = 11, SINGLEPLAYER = 0, MAX_SHIFT = 3, MIN_SHIFT = -3;
+const int ALTURA = 6, LARGURA = 11, OPCAO_SINGLEPLAYER = 0, OPCAO_SAIR = 2, MAX_SHIFT = 3, MIN_SHIFT = -3;
 
 const int REDE = 0, TRAVE_CIMA = -1, TRAVE_LADO = -2, CABECA = 1, BRACO_ESQUERDO = 2, BRACO_DIREITO = 3, 
 			CORPO = 4, PERNA_ESQUERDA = 5, PERNA_DIREITA = 6, BOLA = 7;
@@ -11,7 +11,7 @@ const int ESQUERDA_CIMA = 1, ESQUERDA_BAIXO = 2, MEIO_CIMA = 3,
 		MEIO_BAIXO = 4, DIREITA_CIMA = 5, DIREITA_BAIXO = 6;
 		  
 map<int, char> chars;
-int modoDePartida;
+int opcaoSelecionada;
 
 void buildMap()
 {
@@ -90,11 +90,19 @@ void exibirMenu()
 	cout<<"################\n"<<endl;
 	
 	cout<<"0 - SINGLEPLAYER"<<endl;
-	cout<<"1 - MULTIPLAYER\n"<<endl;
+	cout<<"1 - MULTIPLAYER"<<endl;
+	cout<<"2 - SAIR\n"<<endl;
 	
-	cout<<"Escolha um modo de partida: ";	
-	cin >> modoDePartida;
+	cout<<"Escolha uma das opcoes acima: ";	
+	cin >> opcaoSelecionada;
 	cout<<endl;
+	
+	while(opcaoSelecionada<0 or opcaoSelecionada>2)
+	{
+		cout<<"Opcao invalida. Escolha uma das opcoes acima: ";	
+		cin >> opcaoSelecionada;
+		cout<<endl;
+	}
 }
 
 int simularChute(int localDoChute)
@@ -221,61 +229,64 @@ void realizarJogadaPC(int &p, int jogador)
 int main()
 {	
 	buildMap();
-	
 	exibirMenu();
 	
-	if(modoDePartida==SINGLEPLAYER)
+	while(opcaoSelecionada!=OPCAO_SAIR)
 	{
-		int p1 =0 , pc = 0, rodadas = 0;
-	
-		while((rodadas<5 and ((5-rodadas)>=abs(p1-pc))) or (rodadas>=5 and p1==pc))
+		if(opcaoSelecionada==OPCAO_SINGLEPLAYER)
 		{
-			cout<<"############"<<endl;
-			cout<<"#RODADA "<<rodadas+1<<"!!#"<<endl;
-			cout<<"############\n"<<endl;
+			int p1 =0 , pc = 0, rodadas = 0;
+		
+			while((rodadas<5 and ((5-rodadas)>=abs(p1-pc))) or (rodadas>=5 and p1==pc))
+			{
+				cout<<"############"<<endl;
+				cout<<"#RODADA "<<rodadas+1<<"!!#"<<endl;
+				cout<<"############\n"<<endl;
+				
+				exibirPlacar(p1,pc);
+				realizarJogada(p1, 1);
+				realizarJogadaPC(pc, 2);
+				rodadas++;	
+			}
 			
+			cout<< "FINAL DE PARTIDA!!\n"<<endl;
 			exibirPlacar(p1,pc);
-			realizarJogada(p1, 1);
-			realizarJogadaPC(pc, 2);
-			rodadas++;	
-		}
-		
-		cout<< "FINAL DE PARTIDA!!\n"<<endl;
-		exibirPlacar(p1,pc);
-		if(p1>pc)
-		{
-			cout<< "VOCE VENCEU!"<<endl;
+			if(p1>pc)
+			{
+				cout<< "PARABENS!! VOCE VENCEU!!\n"<<endl;
+			}
+			else
+			{
+				cout<< "NAO FOI DESSA VEZ..\n"<<endl;
+			}
 		}
 		else
 		{
-			cout<< "NAO FOI DESSA VEZ.."<<endl;
-		}
-	}
-	else
-	{
-		int p1 =0 , p2 = 0, rodadas = 0;
-	
-		while((rodadas<5  and (5-rodadas)>=abs(p1-p2)) or (rodadas>=5 and p1==p2))
-		{
-			cout<<"############"<<endl;
-			cout<<"#RODADA "<<rodadas+1<<"!!#"<<endl;
-			cout<<"############\n"<<endl;
+			int p1 =0 , p2 = 0, rodadas = 0;
+		
+			while((rodadas<5  and (5-rodadas)>=abs(p1-p2)) or (rodadas>=5 and p1==p2))
+			{
+				cout<<"############"<<endl;
+				cout<<"#RODADA "<<rodadas+1<<"!!#"<<endl;
+				cout<<"############\n"<<endl;
+				
+				exibirPlacar(p1,p2);
+				realizarJogada(p1, 1);
+				realizarJogada(p2, 2);
+				rodadas++;	
+			}
 			
+			cout<< "FINAL DE PARTIDA!!\n"<<endl;
 			exibirPlacar(p1,p2);
-			realizarJogada(p1, 1);
-			realizarJogada(p2, 2);
-			rodadas++;	
+			if(p1>p2)
+			{
+				cout<< "O JOGADOR 1 VENCEU!\n"<<endl;
+			}
+			else
+			{
+				cout<< "O JOGADOR 2 VENCEU!\n"<<endl;
+			}
 		}
-		
-		cout<< "FINAL DE PARTIDA!!\n"<<endl;
-		exibirPlacar(p1,p2);
-		if(p1>p2)
-		{
-			cout<< "O JOGADOR 1 VENCEU!"<<endl;
-		}
-		else
-		{
-			cout<< "O JOGADOR 2 VENCEU!"<<endl;
-		}
+		exibirMenu();	
 	}	
 }
