@@ -13,11 +13,11 @@ executaMenu():-
 
 opcao(1):-
     write("Modo de jogo: Um jogador"), nl,
-    umJogador().
+    rodadas1jogador(1,0,0).
 
 opcao(2):-
     write("Modo de jogo: Dois jogadores"), nl,
-    doisJogadores().
+    rodadas2jogadores(1, 0, 0).
 
 opcao(3):-
     write("Até  mais!"), nl.
@@ -33,14 +33,6 @@ opcoesDeChute():-
     write("4 - Meixo Cima"), nl,
     write("5 - Direita Baixo"), nl,
     write("6 - Direita Cima"), nl.
-
-umJogador():-
-    write("Um jogador"), nl,
-    rodadas1jogador(1,0,0).
-
-doisJogadores():- 
-    write("Dois jogadores"), nl,
-    rodadas2jogadores(1, 0, 0).
 
 rodadas1jogador(6, PLACAR11, PLACAR12):-
     mostrarPlacar(PLACAR11, PLACAR12, 1),
